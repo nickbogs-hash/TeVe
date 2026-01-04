@@ -11,7 +11,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          flutter-version: '3.7.0' # <--- This forces the older, compatible version
 
       - name: Enable Windows
         run: flutter config --enable-windows-desktop
