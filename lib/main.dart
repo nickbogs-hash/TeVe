@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Teve',
       debugShowCheckedModeBanner: false,
-      home: home,
+      home: const Home(), // <--- This forces it to open the Home app immediately!
     );
   }
 }
