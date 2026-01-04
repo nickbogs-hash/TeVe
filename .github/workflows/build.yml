@@ -7,11 +7,11 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4 # Updated to v4
+      - uses: actions/checkout@v4
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.3.10' # Keeping the safe Flutter version
+          flutter-version: '3.3.10'
 
       - name: Enable Windows
         run: flutter config --enable-windows-desktop
@@ -20,13 +20,14 @@ jobs:
         run: flutter pub get
 
       - name: Create Windows Files
-        run: flutter create . --platforms=windows
+        # I added '--project-name teve' here to fix the capitalization error
+        run: flutter create --project-name teve . --platforms=windows
 
       - name: Build Windows Exe
         run: flutter build windows
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4 # Updated to v4 (The Fix)
+        uses: actions/upload-artifact@v4
         with:
           name: TeVe-Windows-App
           path: build/windows/runner/Release/
