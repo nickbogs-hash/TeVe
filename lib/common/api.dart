@@ -108,8 +108,13 @@ class ApiService {
   }
 
   Uri getUri(String endpoint, {bool isDb = false}) {
-    String fronteir = isDb ? TeveTheme.dbURL : TeveTheme.iptvURl;
-    return Uri.parse(fronteir + endpoint);
+    // FIX: We intercept the call for channels and send it to the working public API
+    if (endpoint.contains("channels.json")) {
+      return Uri.parse("https://iptv-org.github.io/api/channels.json");
+    }
+
+    // Fallback for other requests
+    return Uri.parse("https://iptv-org.github.io/api/" + endpoint);
   }
 
   Future<Map<String, String>> getHeaders() async {
