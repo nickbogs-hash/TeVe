@@ -3,7 +3,6 @@ class ChannelModel {
   String? logo;
   String? url;
   
-  // These are the lists the other screens were crying about
   List<CategoryModel>? categories; 
   List<CategoryModel>? countries;
   List<CategoryModel>? languages;
@@ -23,24 +22,22 @@ class ChannelModel {
       logo: json['logo'] ?? "",
       url: json['url'] ?? "",
       
-      // FIX 1: We fake the categories
-      categories: [CategoryModel(name: "Entertainment")],
+      // Fake Categories
+      categories: [CategoryModel(name: "Entertainment", code: "ENT")],
       
-      // FIX 2: We fake the countries (needed for channels_screen.dart)
-      countries: [CategoryModel(name: "Global")],
+      // Fake Country with the required 'code' (GL = Global)
+      countries: [CategoryModel(name: "Global", code: "GL")],
       
-      // FIX 3: We fake the languages
-      languages: [CategoryModel(name: "English")],
+      // Fake Language
+      languages: [CategoryModel(name: "English", code: "EN")],
     );
   }
 
-  // FIX 4: The 'toJson' method needed for Favorites (player_service.dart)
   Map<String, dynamic> toJson() {
     return {
       "name": name,
       "logo": logo,
       "url": url,
-      // We return empty lists to keep the database clean
       "categories": [],
       "countries": [],
       "languages": []
@@ -51,13 +48,15 @@ class ChannelModel {
 class CategoryModel {
   String? name;
   String? id;
+  String? code; // <--- This is the missing piece you just found!
 
-  CategoryModel({this.name, this.id});
+  CategoryModel({this.name, this.id, this.code});
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(
       name: json['name'] ?? "General",
       id: json['id']?.toString() ?? "0",
+      code: json['code'] ?? "GL", // Default to Global if missing
     );
   }
 
@@ -65,6 +64,7 @@ class CategoryModel {
     return {
       "name": name,
       "id": id,
+      "code": code,
     };
   }
 }
